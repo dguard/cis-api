@@ -83,16 +83,16 @@ export class ExchangeRateService {
   }
 
   async findAll() {
-    const startTime = new Date();
-    const canUseCache = !ExchangeRateService.lastUpdatedAt || (Number(startTime) - Number(ExchangeRateService.lastUpdatedAt) < 5 * 60 * 1000);
+    const startTimeLocal = new Date();
+    const canUseCache = !ExchangeRateService.lastUpdatedAt || (Number(startTimeLocal) - Number(startTimeLocal) < 5 * 60 * 1000);
 
     if(canUseCache && ExchangeRateService.listExchangeRate) {
       return Promise.resolve({last_updated_at: ExchangeRateService.lastUpdatedAt, items: ExchangeRateService.listExchangeRate});
     }
 
-    const { startTimeHours, startTimeMinutes, endTimeHours, endTimeMinutes } = this.getCurrentUpdatePeriod(startTime);
+    const { startTimeHours, startTimeMinutes, endTimeHours, endTimeMinutes } = this.getCurrentUpdatePeriod(startTimeLocal);
 
-    const lastUpdatedAt = new Date(startTime);
+    const lastUpdatedAt = new Date(startTimeLocal);
     lastUpdatedAt.setHours(startTimeHours);
     lastUpdatedAt.setMinutes(startTimeMinutes);
     lastUpdatedAt.setSeconds(0);

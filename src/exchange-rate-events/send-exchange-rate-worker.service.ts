@@ -16,8 +16,8 @@ export class SendExchangeRateWorkerService {
   }
 
 
-  protected static UPDATE_EXCHANGE_RATE_PERIOD_STARTS = '09:00';
-  protected static UPDATE_EXCHANGE_RATE_PERIOD_ENDS = '24:00';
+  protected static UPDATE_EXCHANGE_RATE_PERIOD_STARTS_AT_IN_MOSCOW_TIMEZONE = '09:00';
+  protected static UPDATE_EXCHANGE_RATE_PERIOD_ENDS_AT_IN_MOSCOW_TIMEZONE = '24:00';
 
   protected update_exchange_rate_period = UPDATE_EXCHANGE_RATE_PERIOD_EVERY_5_MINUTES;
   protected last_updated_at;
@@ -99,10 +99,10 @@ export class SendExchangeRateWorkerService {
 
   private sendExchangeRate(clients) {
     return new Promise((resolve, reject) => {
-      const startTime = new Date();
-      const {startTimeHours, startTimeMinutes, endTimeHours, endTimeMinutes} = this.getCurrentUpdatePeriod(startTime);
+      const startTimeLocal = new Date();
+      const {startTimeHours, startTimeMinutes, endTimeHours, endTimeMinutes} = this.getCurrentUpdatePeriod(startTimeLocal);
 
-      const lastUpdatedAt = new Date(startTime);
+      const lastUpdatedAt = new Date(startTimeLocal);
       lastUpdatedAt.setHours(startTimeHours);
       lastUpdatedAt.setMinutes(startTimeMinutes);
       lastUpdatedAt.setSeconds(0);
@@ -114,8 +114,11 @@ export class SendExchangeRateWorkerService {
         return resolve({});
       }
 
-      const startTimeGreaterPeriodStarts = Number(startTimeHours) >= Number(SendExchangeRateWorkerService.UPDATE_EXCHANGE_RATE_PERIOD_STARTS.split(':')[0]);
-      const startTimeLessPeriodEnds = Number(endTimeHours) <= Number(SendExchangeRateWorkerService.UPDATE_EXCHANGE_RATE_PERIOD_ENDS.split(':')[0]);
+      const startTimeMoscowTimezone = new Date(startTimeLocal.toLocaleString("en-US", {timeZone: "Europe/Moscow"}));
+      const periodMoscowTimezone = this.getCurrentUpdatePeriod(startTimeMoscowTimezone);
+
+      const startTimeGreaterPeriodStarts = Number(periodMoscowTimezone['startTimeHours']) >= Number(SendExchangeRateWorkerService.UPDATE_EXCHANGE_RATE_PERIOD_STARTS_AT_IN_MOSCOW_TIMEZONE.split(':')[0]);
+      const startTimeLessPeriodEnds = Number(periodMoscowTimezone['endTimeHours']) <= Number(SendExchangeRateWorkerService.UPDATE_EXCHANGE_RATE_PERIOD_ENDS_AT_IN_MOSCOW_TIMEZONE.split(':')[0]);
 
       if (startTimeGreaterPeriodStarts && startTimeLessPeriodEnds) {
         // keep
@@ -127,14 +130,13 @@ export class SendExchangeRateWorkerService {
         `[SendExchangeRateWorkerService] sendExchangeRate to clients`,
       );
 
-      const dumpFileName = `${process.env.NEST_KAFKA_ROOT_DIR}/tmp/exchangeRate.json`;
-
-      this.logger.debug(
-        `[SendExchangeRateWorkerService] read file`,
-      );
+      const dumpFileName = `${process.env.WORKER_ROOT_DIR}/tmp/exchangeRate.json`;
 
       const readFile = () => {
         return new Promise((rs, rj) => {
+          this.logger.debug(
+            `[SendExchangeRateWorkerService] read file`,
+          );
           fs.readFile(dumpFileName, (err, content: any) => {
               if (err) return rj(err);
 
