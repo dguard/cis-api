@@ -84,7 +84,7 @@ export class ExchangeRateService {
 
   async findAll() {
     const startTimeLocal = new Date();
-    const canUseCache = !ExchangeRateService.lastUpdatedAt || (Number(startTimeLocal) - Number(startTimeLocal) < 5 * 60 * 1000);
+    const canUseCache = !ExchangeRateService.lastUpdatedAt || (Number(startTimeLocal) - Number(ExchangeRateService.lastUpdatedAt) < 5 * 60 * 1000);
 
     if(canUseCache && ExchangeRateService.listExchangeRate) {
       return Promise.resolve({last_updated_at: ExchangeRateService.lastUpdatedAt, items: ExchangeRateService.listExchangeRate});
