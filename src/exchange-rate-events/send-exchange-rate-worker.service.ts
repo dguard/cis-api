@@ -133,7 +133,7 @@ export class SendExchangeRateWorkerService {
         `[SendExchangeRateWorkerService] sendExchangeRate to clients`,
       );
 
-      const dumpFileName = `${this.config.get<string>('WORKER_ROOT_DIR')}/tmp/exchangeRate.json`;
+      const dumpFileName = `${this.config.get<string>('CIS_WORKER_ROOT_DIR')}/tmp/exchangeRate.json`;
 
       const readFile = () => {
         return new Promise((rs, rj) => {

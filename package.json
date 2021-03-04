@@ -1,11 +1,10 @@
 {
   "name": "cis-api",
   "version": "0.0.2",
-  "description": "nestjs-api-websocket",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
-  "repository": "https://git.trinitypro.ru/trinity/api",
+  "description": "Nest API Websocket repository",
+  "license": "MIT",
+  "author": "Alexander Serditov",
+  "repository": "https://github.com/dguard/cis-api",
   "scripts": {
     "parse": "node -r dotenv/config parser/",
     "format": "prettier --write \"**/*.ts\"",
