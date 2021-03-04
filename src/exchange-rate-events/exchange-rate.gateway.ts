@@ -5,8 +5,6 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'ws';
 import {SendExchangeRateWorkerService} from "./send-exchange-rate-worker.service";
-const dotenv = require('dotenv');
-dotenv.config();
 
 const clients = [];
 const mapUsersClients = {};

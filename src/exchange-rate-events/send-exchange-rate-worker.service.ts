@@ -3,6 +3,8 @@ import moment = require('moment');
 import * as fs from 'fs';
 import {WINSTON_MODULE_PROVIDER} from "nest-winston";
 import { Logger } from 'winston';
+import { ConfigService } from '@nestjs/config';
+
 const UPDATE_EXCHANGE_RATE_PERIOD_EVERY_5_MINUTES = 'every 5 minutes';
 const UPDATE_EXCHANGE_RATE_PERIOD_EVERY_15_MINUTES = 'every 15 minutes';
 
@@ -12,6 +14,7 @@ export class SendExchangeRateWorkerService {
 
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    private readonly config: ConfigService
   ) {
   }
 
@@ -130,7 +133,7 @@ export class SendExchangeRateWorkerService {
         `[SendExchangeRateWorkerService] sendExchangeRate to clients`,
       );
 
-      const dumpFileName = `${process.env.WORKER_ROOT_DIR}/tmp/exchangeRate.json`;
+      const dumpFileName = `${this.config.get<string>('WORKER_ROOT_DIR')}/tmp/exchangeRate.json`;
 
       const readFile = () => {
         return new Promise((rs, rj) => {
