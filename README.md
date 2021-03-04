@@ -27,6 +27,8 @@
 ## Description
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+[DEMO](https://api.cis.digitallyconstructed.ru/exchange-rate)
+
 ### \>CIS
 
 \>API
