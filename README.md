@@ -29,21 +29,24 @@
 
 [DEMO](https://api.cis.digitallyconstructed.ru/exchange-rate)
 
-### \>CIS
 
-\>API
+| Service | Repo |
+| --- | --- |
+| API 📦 | cis-api (you are inside) |
+| Frontend 📦 | [cis-front](https://github.com/dguard/cis-front) |
+| Worker 🐍| [cis-worker](https://github.com/dguard/cis-worker) |
+|  📦 |  |
+| Webhook API 🐍| [cis-webhook-api](https://github.com/dguard/cis-webhook-api) |
+| Webhook Worker 🐍| [cis-webhook-worker](https://github.com/dguard/cis-webhook-worker) |
+| Consumer Webhook 🐍| [cis-consumer-webhook](https://github.com/dguard/cis-consumer-webhook) |
+|  📦 |  |
+| Graphql API 🐍| [cis-graphql-api](https://github.com/dguard/cis-graphql-api) |
 
-[Frontend](https://github.com/dguard/cis-front)
+## Captures
+<p align="center">
+  <img src="/captures/postman-api-exchange-rate.png" alt="screenshot" />
+</p>
 
-[Worker](https://github.com/dguard/cis-worker)
-
-### CIS Webhook
-
-[Webhook API](https://github.com/dguard/cis-webhook-api)
-
-[Webhook Worker](https://github.com/dguard/cis-webhook-worker)
-
-[Consumer Webhook](https://github.com/dguard/cis-consumer-webhook)
 
 ## Installation
 
